@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 import { CEAssessmentAgent } from "./agent.js";
 import { getRandomQuestion } from "./db.js";
 import * as readline from "readline";
@@ -12,13 +13,13 @@ const askQuestion = (query: string): Promise<string> => {
 };
 
 async function run() {
-    console.log("=== Vertex AI CE Interactive Skills Assessment ===");
+    console.log("=== CE Interactive Skills Assessment ===");
     console.log("Connecting to Developer Knowledge Agent...");
 
     const agent = new CEAssessmentAgent();
 
     try {
-        console.log("\n[System]: Fetching a pre-generated Vertex AI scenario question...");
+        console.log("\n[System]: Fetching a pre-generated scenario question...");
         const question = getRandomQuestion();
         if (!question) {
             throw new Error("No questions found in database. Please run npm run seed first.");

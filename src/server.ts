@@ -33,9 +33,7 @@ const EvaluateRequestSchema = z.object({
         .refine((s) => s.trim().length > 0, { message: "userAnswer must not be blank or whitespace only." }),
 });
 
-// Prompt injection guard for topic strings
-const sanitizeTopic = (raw: string): string =>
-    raw.replace(/[^a-zA-Z0-9\s.,?-]/g, "").trim() || "Vertex AI core capabilities";
+
 
 // ---------------------------------------------------------------------------
 // Session pool — one agent per user, 30-minute idle TTL
@@ -99,8 +97,7 @@ app.post("/api/generate", async (c) => {
         );
     }
 
-    // We no longer strictly need the topic for the database unless we filter by it, but we parse it.
-    const _parsedTopic = parsed.data.topic ?? "Vertex AI core capabilities";
+    // Topic is parsed for validation but not used for DB filtering.
 
     return streamSSE(c, async (stream) => {
         const emit = (event: object) => stream.writeSSE({ data: JSON.stringify(event) });

@@ -24,7 +24,6 @@ const evaluateBtn = document.getElementById('evaluate-btn') as HTMLButtonElement
 const resetBtn = document.getElementById('reset-btn') as HTMLButtonElement;
 
 const topicSelect = document.getElementById('topic-select') as HTMLSelectElement;
-const industryInput = document.getElementById('industry-input') as HTMLInputElement;
 const answerInput = document.getElementById('answer-input') as HTMLTextAreaElement;
 
 // Display elements
@@ -107,11 +106,6 @@ async function fetchSSE(url: string, data: object, onProgress: (step: string) =>
 // Flow Handlers
 generateBtn.addEventListener('click', async () => {
     let topic = topicSelect.value.trim() || 'Vertex AI core capabilities';
-    const industry = industryInput.value.trim();
-
-    if (industry) {
-        topic = `${topic} applied to the ${industry} industry`;
-    }
 
     // UI Loading state
     generateBtn.classList.add('btn-loading');
@@ -228,7 +222,6 @@ resetBtn.addEventListener('click', () => {
     currentQuestion = null;
     currentSessionId = null;
     topicSelect.selectedIndex = 0;
-    industryInput.value = '';
 
     // Transition UI back to start
     resultSection.classList.remove('active-section');

@@ -1,4 +1,4 @@
-import Database from 'better-sqlite3';
+import Database, { type Database as DatabaseType } from 'better-sqlite3';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import fs from 'fs';
@@ -14,7 +14,7 @@ if (!fs.existsSync(dbDir)) {
     fs.mkdirSync(dbDir, { recursive: true });
 }
 
-export const db = new Database(dbPath);
+export const db: DatabaseType = new Database(dbPath);
 db.pragma('journal_mode = WAL');
 
 // Define the table schema

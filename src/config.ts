@@ -6,6 +6,7 @@ export interface AgentConfig {
     location?: string;
     apiKey?: string;
     modelName?: string;
+    questionsPerPlay?: number;
 }
 
 export function getConfig(): AgentConfig {
@@ -25,8 +26,9 @@ export function getConfig(): AgentConfig {
     }
 
     const modelName = process.env['GEMINI_MODEL'] || 'gemini-3-flash-preview';
+    const questionsPerPlay = parseInt(process.env['QUESTIONS_PER_PLAY'] || '2', 10);
 
-    const result: AgentConfig = { modelName };
+    const result: AgentConfig = { modelName, questionsPerPlay };
     if (projectId) {
         result.projectId = projectId;
         result.location = location;

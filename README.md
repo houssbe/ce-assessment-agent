@@ -1,14 +1,14 @@
-# Vertex AI CE Assessment Agent
+# CE Assessment Agent
 
-A state-of-the-art interactive skill assessment platform for Google Cloud Customer Engineers (CEs). This tool uses the latest Gemini generative models and the Model Context Protocol (MCP) to dynamically generate and evaluate technical scenarios against official Google Cloud documentation.
+A state-of-the-art interactive skill assessment platform for Google Cloud Customer Engineers (CEs). This tool uses the latest Gemini generative models and the Model Context Protocol (MCP) to dynamically generate and evaluate technical scenarios against official Google Cloud documentation. Note: The agent is explicitly configured to decline generating or evaluating questions regarding security or topics completely outside its designated Google Cloud scopes.
 
 ## 🚀 Overview
 
-The **CE Assessment Agent** is designed to validate technical mastery of Vertex AI. Unlike static quiz tools, it uses an **Agentic AI pattern** to browse the official Google Cloud documentation in real-time to ensure every question and evaluation is grounded in the "Ground Truth."
+The **CE Assessment Agent** is designed to validate technical mastery of Google Cloud topics such as Vertex AI, Data Cloud, and MBB (GKE, Cloud Run). Unlike static quiz tools, it uses an **Agentic AI pattern** to browse the official Google Cloud documentation in real-time to ensure every question and evaluation is grounded in the "Ground Truth."
 
 ### Key Features
 
-- **Batch Scenario Generation**: Pre-generates complex, multimodal-aware customer scenarios based on chosen Vertex AI topics into a fast local SQLite database.
+- **Batch Scenario Generation**: Pre-generates complex, multimodal-aware customer scenarios based on chosen Google Cloud topics into a fast local SQLite database.
 - **Real-time Evaluation**: Evaluates candidate responses against live documentation using an agentic reasoning loop.
 - **Documentation Grounding**: Explicitly cites source URLs from the Google Developer Knowledge MCP for every assessment.
 - **Modern Tech Stack**: Built with TypeScript, Node.js, Express, SQLite (`better-sqlite3`), and a high-performance Vanilla UI.
@@ -114,7 +114,7 @@ _Note: This command runs `npx tsc` for the backend and the Rollup build for the 
 
 ### 2. Prepare the Database (Seed Questions)
 
-Before launching the app, you need to pre-generate the assessment scenarios. This uses the agent to fetch official docs and create questions for 5 major Vertex AI Sales Plays, saving them into a local `questions.db` database.
+Before launching the app, you need to pre-generate the assessment scenarios. This uses the agent to fetch official docs and create questions for several major Google Cloud Categories (including Vertex AI, Data Cloud, and MBB), saving them into a local `questions.db` database.
 
 ```bash
 npm run seed
@@ -136,7 +136,23 @@ Go to **[http://localhost:3000](http://localhost:3000)** in your browser.
 
 #### **CLI Mode (Interactive Terminal)**
 
-For a quick text-based assessment directly in your terminal:
+For a quick text-based assessment directly in your terminal, you have three options:
+
+**1. Using `npx` (Requires build):**
+Run the compiled CLI as an executable from anywhere in the project:
+
+```bash
+npx .
+```
+
+**2. Development Mode (No build required):**
+Run the TypeScript source directly:
+
+```bash
+npm run cli
+```
+
+**3. Direct Node execution (Requires build):**
 
 ```bash
 node dist/index.js

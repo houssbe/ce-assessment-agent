@@ -1,24 +1,28 @@
 import { CEAssessmentAgent } from '../src/agent.js';
 import { db, insertQuestion } from '../src/db.js';
+import { getConfig } from '../src/config.js';
 
-const SALES_PLAYS = [
+const PRODUCT_CATEGORIES = [
     "Generative AI for Customer Service (e.g., Agents, Dialogflow integration)",
     "Enterprise Search & RAG (e.g., Vertex AI Search)",
     "Employee Productivity (e.g., internal knowledge assistants)",
     "Code Generation & Developer Productivity",
-    "MLOps & Predictive AI Models"
+    "MLOps & Predictive AI Models",
+    "Data Cloud (e.g., BigQuery, Cloud SQL, AlloyDB, Spanner)",
+    "MBB (e.g., GKE, Cloud Run)",
 ];
 
-const QUESTIONS_PER_PLAY = 2; // Generating 2 questions per play for the batch
+const config = getConfig();
+const QUESTIONS_PER_PLAY = config.questionsPerPlay ?? 2;
 
 async function seed() {
     console.log("=== Starting Batch Question Generation ===");
-    console.log(`Targeting ${SALES_PLAYS.length} Vertex AI Sales Plays, ${QUESTIONS_PER_PLAY} questions each.`);
+    console.log(`Targeting ${PRODUCT_CATEGORIES.length} Google Cloud Categories, ${QUESTIONS_PER_PLAY} questions each.`);
 
     const agent = new CEAssessmentAgent();
 
-    for (const play of SALES_PLAYS) {
-        console.log(`\n\n--- Generating for Sales Play: ${play} ---`);
+    for (const play of PRODUCT_CATEGORIES) {
+        console.log(`\n\n--- Generating for Category: ${play} ---`);
         for (let i = 1; i <= QUESTIONS_PER_PLAY; i++) {
             console.log(`\n[${i}/${QUESTIONS_PER_PLAY}] Generating question...`);
             try {

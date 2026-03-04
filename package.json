@@ -2,12 +2,16 @@
   "name": "ce-assessment-agent",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "dist/index.js",
+  "bin": {
+    "ce-assessment-agent": "./dist/index.js"
+  },
   "scripts": {
     "build": "tsc && cd public && npm run build",
     "dev": "tsx watch src/server.ts",
     "test": "TMPDIR=/tmp vitest run src/__tests__",
     "start": "node dist/server.js",
+    "cli": "tsx src/index.ts",
     "seed": "tsx scripts/seed.ts"
   },
   "keywords": [],

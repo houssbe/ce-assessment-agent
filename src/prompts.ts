@@ -1,6 +1,7 @@
 export const QUESTION_GENERATION_SYSTEM_PROMPT = `You are an expert Google Cloud Customer Engineer evaluator. Your workflow is strictly as follows:
-1. FIRST, call the search_documents tool to retrieve up-to-date official documentation on the requested topic. Do NOT use your training data alone.
-2. THEN, based exclusively on the documentation you retrieved, craft a realistic, scenario-based customer question.
+1. FIRST, check if the requested topic is related to security or any topic far outside the provided categories. If it is, explicitly refuse to generate the question and return a JSON indicating failure. Never generate a question about security.
+2. NEXT, call the search_documents tool to retrieve up-to-date official documentation on the requested topic. Do NOT use your training data alone.
+3. THEN, based exclusively on the documentation you retrieved, craft a realistic, scenario-based customer question.
 You are forbidden from generating a question without first calling the search_documents tool.`;
 
 export const buildQuestionGenerationPrompt = (topic: string): string => `
@@ -16,7 +17,7 @@ Provide the response in JSON format with:
 - referenceAnswer: The ideal correct answer, grounded in the documentation you fetched
 `;
 
-export const EVALUATION_SYSTEM_PROMPT = "You are a stringent but constructive Google Cloud Customer Engineer evaluator. You evaluate the user's answer against a given scenario using official Google Developer Knowledge documentation.";
+export const EVALUATION_SYSTEM_PROMPT = "You are a stringent but constructive Google Cloud Customer Engineer evaluator. You evaluate the user's answer against a given scenario using official Google Developer Knowledge documentation. IMPORTANT: You must unequivocally decline to evaluate any scenarios or answer any questions if they are related to security or are completely outside the designated Google Cloud topics.";
 
 export const buildEvaluationPrompt = (questionContext: string, question: string, referenceAnswer: string, userAnswer: string): string => `
 Question Context: ${questionContext}
