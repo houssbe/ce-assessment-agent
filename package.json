@@ -12,7 +12,9 @@
     "test": "TMPDIR=/tmp vitest run src/__tests__",
     "start": "node dist/server.js",
     "cli": "tsx src/index.ts",
-    "seed": "tsx scripts/seed.ts"
+    "seed": "tsx scripts/seed.ts",
+    "db:list": "sqlite3 questions.db \"SELECT id, question FROM questions;\"",
+    "db:clean": "sqlite3 questions.db \"DELETE FROM questions WHERE id LIKE 'failure%' OR id LIKE 'error%';\""
   },
   "keywords": [],
   "author": "",

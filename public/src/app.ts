@@ -53,54 +53,68 @@ interface ApiResponse {
 /**
  * POST to an SSE endpoint, calling onProgress for each progress event,
  * and resolving with the final result payload.
+ * Includes a 120-second timeout to prevent the UI from freezing.
  */
 async function fetchSSE(url: string, data: object, onProgress: (step: string) => void): Promise<ApiResponse> {
-    const response = await fetch(url, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data)
-    });
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 120_000); // 120s timeout
 
-    // If the server rejected before opening a stream (e.g. 400/404), parse as JSON error
-    if (!response.ok || !response.body) {
-        const body = await response.json().catch(() => ({})) as ApiResponse;
-        throw new Error(body.error || `Request failed with status ${response.status}`);
-    }
+    try {
+        const response = await fetch(url, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(data),
+            signal: controller.signal
+        });
 
-    const reader = response.body.getReader();
-    const decoder = new TextDecoder();
-    let buffer = '';
-    let result: ApiResponse | null = null;
+        // If the server rejected before opening a stream (e.g. 400/404), parse as JSON error
+        if (!response.ok || !response.body) {
+            const body = await response.json().catch(() => ({})) as ApiResponse;
+            throw new Error(body.error || `Request failed with status ${response.status}`);
+        }
 
-    while (true) {
-        const { done, value } = await reader.read();
-        if (done) break;
-        buffer += decoder.decode(value, { stream: true });
+        const reader = response.body.getReader();
+        const decoder = new TextDecoder();
+        let buffer = '';
+        let result: ApiResponse | null = null;
 
-        // SSE lines end with \n; split and keep any incomplete trailing line
-        const lines = buffer.split('\n');
-        buffer = lines.pop() ?? '';
+        while (true) {
+            const { done, value } = await reader.read();
+            if (done) break;
+            buffer += decoder.decode(value, { stream: true });
 
-        for (const line of lines) {
-            if (!line.startsWith('data: ')) continue;
-            try {
-                const event = JSON.parse(line.slice(6)) as { type: string; step?: string; data?: ApiResponse; message?: string };
-                if (event.type === 'progress' && event.step) {
-                    onProgress(event.step);
-                } else if (event.type === 'result' && event.data) {
-                    result = event.data;
-                } else if (event.type === 'error') {
-                    throw new Error(event.message ?? 'Unknown server error');
+            // SSE lines end with \n; split and keep any incomplete trailing line
+            const lines = buffer.split('\n');
+            buffer = lines.pop() ?? '';
+
+            for (const line of lines) {
+                if (!line.startsWith('data: ')) continue;
+                try {
+                    const event = JSON.parse(line.slice(6)) as { type: string; step?: string; data?: ApiResponse; message?: string };
+                    if (event.type === 'progress' && event.step) {
+                        onProgress(event.step);
+                    } else if (event.type === 'result' && event.data) {
+                        result = event.data;
+                    } else if (event.type === 'error') {
+                        throw new Error(event.message ?? 'Unknown server error');
+                    }
+                } catch (e) {
+                    if (e instanceof SyntaxError) continue; // ignore non-JSON lines
+                    throw e;
                 }
-            } catch (e) {
-                if (e instanceof SyntaxError) continue; // ignore non-JSON lines
-                throw e;
             }
         }
-    }
 
-    if (!result) throw new Error('No result received from server.');
-    return result;
+        if (!result) throw new Error('No result received from server.');
+        return result;
+    } catch (e) {
+        if (e instanceof DOMException && e.name === 'AbortError') {
+            throw new Error('Request timed out. The server took too long to respond. Please try again.');
+        }
+        throw e;
+    } finally {
+        clearTimeout(timeoutId);
+    }
 }
 
 // Flow Handlers

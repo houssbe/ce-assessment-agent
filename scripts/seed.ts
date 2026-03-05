@@ -3,13 +3,9 @@ import { db, insertQuestion } from '../src/db.js';
 import { getConfig } from '../src/config.js';
 
 const PRODUCT_CATEGORIES = [
-    "Generative AI for Customer Service (e.g., Agents, Dialogflow integration)",
-    "Enterprise Search & RAG (e.g., Vertex AI Search)",
-    "Employee Productivity (e.g., internal knowledge assistants)",
-    "Code Generation & Developer Productivity",
-    "MLOps & Predictive AI Models",
+    "Cloud AI",
     "Data Cloud (e.g., BigQuery, Cloud SQL, AlloyDB, Spanner)",
-    "MBB (e.g., GKE, Cloud Run)",
+    "Modern Infrastructure (e.g., GKE, Cloud Run)",
 ];
 
 const config = getConfig();

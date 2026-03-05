@@ -99,7 +99,8 @@ export class CEAssessmentAgent {
                 id: Date.now(),
                 method,
                 params
-            })
+            }),
+            signal: AbortSignal.timeout(60_000) // 60s timeout to prevent indefinite hangs
         });
 
         if (!res.ok) {

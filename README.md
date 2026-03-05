@@ -1,10 +1,12 @@
 # CE Assessment Agent
 
-A state-of-the-art interactive skill assessment platform for Google Cloud Customer Engineers (CEs). This tool uses the latest Gemini generative models and the Model Context Protocol (MCP) to dynamically generate and evaluate technical scenarios against official Google Cloud documentation. Note: The agent is explicitly configured to decline generating or evaluating questions regarding security or topics completely outside its designated Google Cloud scopes.
+A state-of-the-art interactive skill assessment platform for Google Cloud Customer Engineers (CEs). This tool evaluates your own skills and technical readiness by placing you in complex, procedurally generated customer scenarios based on the latest Google Cloud documentation.
+
+It uses the latest Gemini generative models and the Model Context Protocol (MCP) to dynamically generate and evaluate scenarios against official Google Cloud documentation. Note: The agent is explicitly configured to decline generating or evaluating questions regarding security or topics completely outside its designated Google Cloud scopes.
 
 ## 🚀 Overview
 
-The **CE Assessment Agent** is designed to validate technical mastery of Google Cloud topics such as Vertex AI, Data Cloud, and MBB (GKE, Cloud Run). Unlike static quiz tools, it uses an **Agentic AI pattern** to browse the official Google Cloud documentation in real-time to ensure every question and evaluation is grounded in the "Ground Truth."
+The **CE Assessment Agent** is designed to validate technical mastery of Google Cloud topics such as Vertex AI, Data Cloud, and Modern Infrastructure (GKE, Cloud Run). Unlike static quiz tools, it uses an **Agentic AI pattern** to browse the official Google Cloud documentation in real-time to ensure every question and evaluation is grounded in the "Ground Truth."
 
 ### Key Features
 
@@ -114,13 +116,26 @@ _Note: This command runs `npx tsc` for the backend and the Rollup build for the 
 
 ### 2. Prepare the Database (Seed Questions)
 
-Before launching the app, you need to pre-generate the assessment scenarios. This uses the agent to fetch official docs and create questions for several major Google Cloud Categories (including Vertex AI, Data Cloud, and MBB), saving them into a local `questions.db` database.
+Before launching the app, you need to pre-generate the assessment scenarios. This uses the agent to fetch official docs and create questions for several major Google Cloud Categories (including Vertex AI, Data Cloud, and Modern Infrastructure), saving them into a local `questions.db` database.
 
 ```bash
 npm run seed
 ```
 
-### 3. Launch the Application
+### 3. Database Utilities
+
+Manage your local question bank with these helper commands:
+
+- **List all questions**: View the IDs and text of every generated scenario in your database.
+  ```bash
+  npm run db:list
+  ```
+- **Clean database**: Remove any legacy "failure" or "error" entries that might have been generated during unstable network conditions.
+  ```bash
+  npm run db:clean
+  ```
+
+### 4. Launch the Application
 
 You can run the assessment in two modes:
 
