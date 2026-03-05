@@ -1,12 +1,12 @@
 # CE Assessment Agent
 
-A state-of-the-art interactive skill assessment platform for Google Cloud Customer Engineers (CEs). This tool evaluates your own skills and technical readiness by placing you in complex, procedurally generated customer scenarios based on the latest Google Cloud documentation.
+Evaluate your Google Cloud Customer Engineer (CE) skills against realistic customer scenarios. This tool uses Gemini and the Model Context Protocol (MCP) to generate complex challenges and provide grounded, real-time evaluation of your technical proposals.
 
-It uses the latest Gemini generative models and the Model Context Protocol (MCP) to dynamically generate and evaluate scenarios against official Google Cloud documentation. Note: The agent is explicitly configured to decline generating or evaluating questions regarding security or topics completely outside its designated Google Cloud scopes.
+**Note**: The agent is explicitly configured to decline generating or evaluating questions regarding security or topics outside its designated Google Cloud scopes.
 
 ## 🚀 Overview
 
-The **CE Assessment Agent** is designed to validate technical mastery of Google Cloud topics such as Vertex AI, Data Cloud, and Modern Infrastructure (GKE, Cloud Run). Unlike static quiz tools, it uses an **Agentic AI pattern** to browse the official Google Cloud documentation in real-time to ensure every question and evaluation is grounded in the "Ground Truth."
+The **CE Assessment Agent** validates your technical mastery of Google Cloud topics such as Cloud AI, Data Cloud, and Modern Infrastructure. Unlike static quiz tools, it uses an **Agentic AI pattern** to browse official documentation in real-time, ensuring every assessment is grounded in the "Ground Truth."
 
 ### Key Features
 
