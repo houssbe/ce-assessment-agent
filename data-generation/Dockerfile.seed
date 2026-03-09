@@ -1,0 +1,12 @@
+FROM node:20-slim
+WORKDIR /app
+
+# Install all dependencies including devDependencies (like tsx)
+COPY package.json package-lock.json ./
+RUN npm install
+
+# Copy everything
+COPY . .
+
+# Run the seed script
+CMD ["npm", "run", "seed"]

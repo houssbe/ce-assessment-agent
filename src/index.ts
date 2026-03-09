@@ -20,7 +20,7 @@ async function run() {
 
     try {
         console.log("\n[System]: Fetching a pre-generated scenario question...");
-        const question = getRandomQuestion();
+        const question = await getRandomQuestion();
         if (!question) {
             throw new Error("No questions found in database. Please run npm run seed first.");
         }
@@ -36,7 +36,7 @@ async function run() {
         const result = await agent.evaluateAnswer(question, answer);
 
         console.log("\n=== ASSESSMENT RESULT ===");
-        console.log(`Result: ${result.isCorrect ? "✅ SUCCESS" : "❌ NEEDS IMPROVEMENT"}`);
+        console.log(`Result: ${result.status === "CORRECT" ? "✅ CORRECT" : result.status === "PARTIAL" ? "⚠️ PARTIAL" : "❌ INCORRECT"}`);
         console.log(`\nFeedback:\n${result.feedback}`);
 
         console.log(`\n(Reference Answer context: ${question.referenceAnswer})`);

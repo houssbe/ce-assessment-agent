@@ -1,0 +1,9 @@
+node_modules
+public/node_modules
+dist
+.env
+.git
+.agent
+logs
+coverage
+.nyc_output

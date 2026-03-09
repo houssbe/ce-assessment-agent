@@ -3,146 +3,404 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Vertex AI | Test Your GCP Knowledge</title>
-    <meta
-      name="description"
-      content="A state-of-the-art AI skill assessment platform for Google Cloud Customer Engineers focusing on Vertex AI."
-    />
-    <!-- Google Fonts: Inter -->
+    <title>Google Cloud Trivia</title>
+    <meta name="description" content="A state-of-the-art AI skill assessment platform for Google Cloud practitioners." />
+    <!-- Google Fonts: Inter & Plus Jakarta Sans from Stitch -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
-      rel="stylesheet"
-    />
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+      rel="stylesheet" />
     <link rel="stylesheet" href="style.css" />
+    <!-- Taildwind injection for the Leaderboard Screen (no preflight to avoid stomping our custom CSS for the Quiz) -->
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script id="tailwind-config">
+      tailwind.config = {
+        corePlugins: {
+          preflight: false,
+        },
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "on-secondary-fixed-variant": "#31466f",
+              "on-primary-container": "#fefcff",
+              "inverse-surface": "#2e3038",
+              "on-tertiary-fixed": "#2f1400",
+              "secondary-container": "#b7ccfd",
+              "on-tertiary-fixed-variant": "#6f3800",
+              "primary-fixed": "#d8e2ff",
+              "on-secondary": "#ffffff",
+              "error": "#ba1a1a",
+              "primary-container": "#2771df",
+              "surface": "#f9f9ff",
+              "background": "#f9f9ff",
+              "surface-dim": "#d8d9e3",
+              "on-tertiary-container": "#fffbff",
+              "outline": "#727785",
+              "inverse-primary": "#adc6ff",
+              "on-background": "#191b22",
+              "on-primary-fixed-variant": "#004494",
+              "surface-container": "#ecedf7",
+              "on-primary-fixed": "#001a41",
+              "on-surface-variant": "#424753",
+              "on-tertiary": "#ffffff",
+              "secondary": "#495e89",
+              "on-surface": "#191b22",
+              "surface-tint": "#005ac1",
+              "secondary-fixed-dim": "#b1c6f7",
+              "on-primary": "#ffffff",
+              "outline-variant": "#c2c6d5",
+              "secondary-fixed": "#d8e2ff",
+              "surface-variant": "#e1e2eb",
+              "surface-container-high": "#e7e7f1",
+              "primary": "#0058bd",
+              "surface-container-highest": "#e1e2eb",
+              "surface-container-low": "#f2f3fd",
+              "error-container": "#ffdad6",
+              "tertiary-fixed": "#ffdcc4",
+              "surface-bright": "#f9f9ff",
+              "on-error-container": "#93000a",
+              "primary-fixed-dim": "#adc6ff",
+              "on-secondary-fixed": "#001a41",
+              "tertiary-container": "#b35e00",
+              "inverse-on-surface": "#eff0fa",
+              "surface-container-lowest": "#ffffff",
+              "tertiary": "#8f4a00",
+              "on-secondary-container": "#415680",
+              "on-error": "#ffffff",
+              "tertiary-fixed-dim": "#ffb780"
+            },
+            fontFamily: {
+              "headline": ["Plus Jakarta Sans"],
+              "body": ["Inter"],
+              "label": ["Inter"]
+            },
+            borderRadius: { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" },
+          },
+        },
+      }
+    </script>
   </head>
 
   <body>
-    <div id="particles-background"></div>
-
-    <main class="container">
-      <header class="app-header">
-        <div class="logo-container">
-          <!-- A futuristic glowing icon representing AI -->
-          <svg
-            class="glow-icon"
-            width="32"
-            height="32"
-            viewBox="0 0 24 24"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              d="M12 2L2 7L12 12L22 7L12 2Z"
-              stroke="#00e5ff"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            />
-            <path
-              d="M2 17L12 22L22 17"
-              stroke="#00e5ff"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            />
-            <path
-              d="M2 12L12 17L22 12"
-              stroke="#00e5ff"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            />
-          </svg>
-          <h1>Vertex AI <span class="accent-text">Assessment</span></h1>
+    <!-- Landing Page -->
+    <section id="landing-section" class="landing-section">
+      <div class="landing-left">
+        <div class="logo-container" style="margin-bottom: 2rem;">
+          <div class="cloud-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path
+                d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14.5v-5h2v5h-2zm1-7c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1z" />
+            </svg>
+          </div>
+          <h1 style="font-size: 1.5rem;">Google Cloud Trivia</h1>
         </div>
-        <p class="subtitle">
-          Prove your Google Cloud mastery. Self-assess against real-time
-          Developer Knowledge.
-        </p>
+        <h1 class="landing-title">Come and challenge<br><span style="color: var(--primary-blue);">your skills.</span></h1>
+        <p class="landing-subtitle">Test your knowledge of Google Cloud Platform and climb the global leaderboard of
+          ethereal architects.</p>
+        <div style="display: flex; gap: 1rem; margin-top: 3rem;">
+          <span class="badge badge-outline">ARCHITECTURE</span>
+          <span class="badge badge-outline">SECURITY</span>
+          <span class="badge badge-outline">DATA & ML</span>
+        </div>
+      </div>
+      <div class="landing-right">
+        <div class="login-card content-card">
+          <h2 style="font-size: 1.75rem; margin-bottom: 0.5rem;">Welcome Back</h2>
+          <p style="color: var(--text-secondary); margin-bottom: 2rem;">Sign in to continue your ascent.</p>
+          <button id="login-btn" class="google-btn" style="width: 100%; margin: 1rem 0;">
+            <svg width="18" height="18" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path
+                d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
+                fill="#4285F4" />
+              <path
+                d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"
+                fill="#34A853" />
+              <path
+                d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"
+                fill="#FBBC05" />
+              <path
+                d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"
+                fill="#EA4335" />
+              <path d="M1 1h22v22H1z" fill="none" />
+            </svg>
+            Sign in with Google
+            </button>
+        </div>
+      </div>
+      </section>
+      <!-- App Shell -->
+      <div id="app-shell" class="hidden" style="display: flex; flex-direction: column; min-height: 100vh;">
+        <header class="top-nav">
+          <div class="logo-container">
+            <div class="cloud-icon">
+              <svg width="20" height="20" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path
+                  d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14.5v-5h2v5h-2zm1-7c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1z" />
+              </svg>
+            </div>
+            <h1>Google Cloud Trivia</h1>
+            <div class="nav-links" style="margin-left: 2rem;">
+              <a id="tab-quiz" class="nav-link active" style="cursor: pointer;">Quiz</a>
+              <a id="tab-leaderboard" class="nav-link" style="cursor: pointer;">Leaderboard</a>
+            </div>
+          </div>
+          <div class="user-menu">
+            <div class="auth-display">
+              <span id="auth-status"></span>
+              <button id="edit-username-btn" class="icon-btn hidden" title="Edit Username">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                  stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M12 20h9"></path>
+                  <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path>
+                </svg>
+              </button>
+            </div>
+            <button id="logout-btn" class="icon-btn hidden" title="Log Out">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+                <polyline points="16 17 21 12 16 7"></polyline>
+                <line x1="21" y1="12" x2="9" y2="12"></line>
+              </svg>
+            </button>
+          </div>
       </header>
+  
+      <div class="main-wrapper">
+        <aside class="sidebar">
+          <div class="content-card"
+            style="padding: 1.5rem; display: flex; flex-direction: column; align-items: center; text-align: center;">
+            <div class="score-circle">
+              <svg viewBox="0 0 36 36" style="width: 100%; height: 100%;">
+                <path d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none"
+                  stroke="#e5e7eb" stroke-width="3" />
+                <path class="score-path" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
+                  fill="none" stroke="#1b64f2" stroke-width="3" stroke-dasharray="100, 100" />
+              </svg>
+              <div class="score-text">
+                <b id="score-display">0</b>
+                <span>Score</span>
+              </div>
+            </div>
+            <h3 class="score-label">Architect Path</h3>
+            <p class="score-desc">Analyze cloud infrastructure and scaling patterns.</p>
+          </div>
+          <div class="meta-card">
+            <div class="meta-icon">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10"></circle>
+                <polyline points="12 6 12 12 16 14"></polyline>
+              </svg>
+            </div>
+            <div class="meta-info">
+              <h4>Question Step</h4>
+              <p id="scenario-ribbon">N/A</p>
+            </div>
+          </div>
+          </aside>
+          
+          <main class="main-content">
+            <!-- Quiz View Container -->
+            <div id="quiz-view">
+              <!-- Generate Phase -->
+              <section id="generate-section" class="content-card active-section">
+                <div class="badge">START ASSESSMENT</div>
+                <h1 class="question-title">Test Your GCP Architecture Knowledge</h1>
+                <p class="scenario-text">Our LLM agent will synthesize real documentation into a scenario to challenge you.</p>
+          
+                <div id="auth-group" style="margin-top: auto; text-align: center;">
+                  <div id="username-setup-group" class="setup-panel hidden">
+                    <p style="margin-bottom: 1rem; color: var(--text-primary); font-weight: 600;">Display Name setup</p>
+                    <input type="text" id="username-input" placeholder="e.g. cloud_ninja" />
+                    <button id="save-username-btn" class="btn-primary" style="width: 100%;">
+                      <span class="btn-text">Save Username</span>
+                      <div class="loader hidden" id="save-user-loader"></div>
+                    </button>
+                    <p id="username-error" style="color: var(--error); font-size: 0.85rem; margin-top: 1rem; display: none;"></p>
+                  </div>
+                <p id="gen-status" class="status-label hidden"></p>
+                <button id="generate-btn" class="btn-primary" style="margin: 0 auto;">
+                  <span class="btn-text">Generate Assessment</span>
+                  <div class="loader hidden" id="gen-loader"></div>
+                </button>
+              </div>
+            </section>
+            
+            <!-- Assessment Phase -->
+            <section id="assessment-section" class="content-card hidden">
+              <div class="badge">COMPUTATIONAL ARCHITECTURE</div>
+            
+              <div class="context-box">
+                <span class="label-heading">Customer Context</span>
+                <p id="context-display" class="scenario-text"></p>
+                </div>
+                
+                <div class="question-box">
+                <h2 id="question-display" class="question-title"></h2>
+                </div>
+                
+                <div class="input-group">
+                <label for="answer-input">Your Solution</label>
+                <textarea id="answer-input" rows="5"
+                  placeholder="Formulate your answer here as if you are advising a real Google Cloud customer..."></textarea>
+                </div>
+  <div class="action-footer">
+    <p id="eval-status" class="status-label hidden" style="margin: 0;"></p>
+    <button class="btn-secondary" style="display: none;">Skip Question</button>
+    <button id="evaluate-btn" class="btn-primary submit-btn">
+      <span class="btn-text">Submit Answer</span>
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+        stroke-linecap="round" stroke-linejoin="round">
+        <path d="M5 12h14"></path>
+        <path d="M12 5l7 7-7 7"></path>
+      </svg>
+      <div class="loader hidden" id="eval-loader"></div>
+    </button>
+              </div>
+            </section>
+            
+            <!-- Result Phase -->
+            <section id="result-section" class="content-card hidden">
+              <h2 id="result-title" class="result-title"></h2>
+            
+              <div class="feedback-box">
+                <span class="label-heading">Feedback & Rationale</span>
+                <p id="feedback-display" class="dynamic-text"></p>
+                </div>
+                
+                <div class="sources-box">
+                <span class="label-heading">Ground Truth Sources</span>
+                <ul id="sources-display" class="source-list"></ul>
+                </div>
+                
+                <div class="expected-box">
+                <span class="label-heading">Agent's Expected Answer</span>
+                <p id="expected-display" class="dynamic-text expected-text"></p>
+                </div>
+              <div class="action-footer">
+                <button id="reset-btn" class="btn-primary">Next Assessment</button>
+              </div>
+              </section>
+              </div>
+              
+              <!-- Leaderboard View Container -->
+              <div id="leaderboard-view" class="hidden">
+                <!-- Podium Section (Bento Style) -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+                  <!-- Silver - Rank 2 -->
+                  <div
+                    class="md:order-1 order-2 bg-surface-container-lowest p-8 rounded-xl ambient-lift flex flex-col items-center text-center relative overflow-hidden self-end h-[320px] justify-center">
+                    <div class="absolute top-0 right-0 p-4 opacity-10">
+                      <span class="material-symbols-outlined text-8xl" data-icon="cloud">cloud</span>
+                    </div>
+                    <div class="relative mb-4">
+                      <img class="w-20 h-20 rounded-full border-4 border-secondary-fixed shadow-lg"
+                        data-alt="Second place user avatar profile"
+                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuAJI-2pmSkBMYvnys7s2hrQl1KOCCSnDpu21pHzPsik9XHa0gU7QqwixiKPA_APgQjzDgxf6c3maVRYdy0AHBAeNx-X-9n_rC6h59JVp_aBCz4co0L0fvAgDhXIwD4Afq96H__rnE_ZQGXbDLxVMi4WHgJu1dQ0LYM8grwQGrALm6amobpnpD9H7KUVW10p18cSp8UG_z4C4dkW9_L8fKzMlGqzFl9tVsEY-CaU8PIOGk10leABcebcOWQSdSUJ3Q7OdDCftOrcqUcZ" />
+                      <div
+                        class="absolute -bottom-2 -right-2 bg-secondary-fixed text-on-secondary-fixed-variant w-8 h-8 rounded-full flex items-center justify-center font-bold border-2 border-white">
+                        2</div>
+                    </div>
+                    <h3 id="podium-2-name" class="font-headline font-bold text-xl text-on-surface">...</h3>
+                    <p id="podium-2-id" class="text-on-surface-variant text-sm mb-4">ID: ...</p>
+                    <div class="bg-surface-container-high px-4 py-1 rounded-full">
+                      <span id="podium-2-pts" class="font-headline font-extrabold text-primary">0 <span
+                          class="text-[10px] text-on-surface-variant font-normal">pts</span></span>
+                    </div>
+                    <span class="material-symbols-outlined text-secondary-fixed mt-4 text-3xl" data-icon="rewarded_ads"
+                      data-weight="fill" style="font-variation-settings: 'FILL' 1;">rewarded_ads</span>
+                  </div>
+              
+                  <!-- Gold - Rank 1 -->
+                  <div
+                    class="md:order-2 order-1 bg-gradient-to-br from-primary to-primary-container p-10 rounded-xl shadow-2xl flex flex-col items-center text-center relative overflow-hidden transform scale-105 z-10">
+                    <div class="absolute top-0 left-0 w-full h-1 bg-white/20"></div>
+                    <div class="relative mb-6">
+                      <div class="absolute -top-6 left-1/2 -translate-x-1/2">
+                        <span class="material-symbols-outlined text-yellow-400 text-4xl" data-icon="workspace_premium"
+                          data-weight="fill" style="font-variation-settings: 'FILL' 1;">workspace_premium</span>
+                      </div>
+                      <img class="w-28 h-28 rounded-full border-4 border-white/30 shadow-2xl"
+                        data-alt="First place user avatar profile"
+                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuCHlz33CsDGMIbVmoTyLRfGbcqFfAhlZyW9jSrmexqCZ2ZlgK9m28ZnybDN6Sj1_y3n4MBy35FS8SZm1EPsJbchJneYypWJbvofmF-0VldJjEgCq97BxCL6CVLDqppu1wBbM3NchnwH3QxCVM-dwUGgat-Dn6kgQh2hP2V127cShPPVACbLSJDfnP6PVXnV_AykhKVAKcGkg1rJTRW15N_lCLuN95BWokxJp7gplmpS6r0c33JOHk9Ti2rPbmNMeiqSe-spgnWhN5ue" />
+                      <div
+                        class="absolute -bottom-2 -right-2 bg-white text-primary w-10 h-10 rounded-full flex items-center justify-center font-black text-xl border-4 border-primary shadow-lg">
+                        1</div>
+                    </div>
+                    <h3 id="podium-1-name" class="font-headline font-extrabold text-2xl text-white">...</h3>
+                    <p id="podium-1-id" class="text-white/70 text-sm mb-6">ID: ...</p>
+                    <div class="bg-white/10 backdrop-blur-md border border-white/20 px-6 py-2 rounded-full">
+                      <span id="podium-1-pts" class="font-headline font-black text-white text-2xl">0 <span
+                          class="text-xs text-white/70 font-normal">pts</span></span>
+                    </div>
+                    <p class="mt-4 font-label text-[10px] uppercase text-white/50 tracking-widest font-bold">TOP ARCHITECT</p>
+                  </div>
+              
+                  <!-- Bronze - Rank 3 -->
+                  <div
+                    class="md:order-3 order-3 bg-surface-container-lowest p-8 rounded-xl ambient-lift flex flex-col items-center text-center relative overflow-hidden self-end h-[320px] justify-center">
+                    <div class="absolute bottom-0 left-0 p-4 opacity-10">
+                      <span class="material-symbols-outlined text-8xl" data-icon="database">database</span>
+                    </div>
+                    <div class="relative mb-4">
+                      <img class="w-20 h-20 rounded-full border-4 border-tertiary-fixed shadow-lg"
+                        data-alt="Third place user avatar profile"
+                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuBQHx0AXIlBjXoVp8bQfYQ_92yF9QRE8ZYHppdJkoFr-aRQVJtrs-LJFw9y1TVXE2zDC2E3ZPa0YdXjs_TpYvDyWgcEVPA2NcALonU61woSJoQsYZybyx46DUYcW9kJr-lFVf9rPHwc_CwidA0anCBdFO-z-6IFnqur3Aw7XsJFyYinT3ns96guQqXg2AO8gaAmFFB2PiMSecFHcskWswhzpwqPA_i-mezOYdyz2NwI-Rq3J-TXAP1Voh-H9avu2M9lxcoUb4NG4hb4" />
+                      <div
+                        class="absolute -bottom-2 -right-2 bg-tertiary-fixed text-on-tertiary-fixed-variant w-8 h-8 rounded-full flex items-center justify-center font-bold border-2 border-white">
+                        3</div>
+                    </div>
+                    <h3 id="podium-3-name" class="font-headline font-bold text-xl text-on-surface">...</h3>
+                    <p id="podium-3-id" class="text-on-surface-variant text-sm mb-4">ID: ...</p>
+                    <div class="bg-surface-container-high px-4 py-1 rounded-full">
+                      <span id="podium-3-pts" class="font-headline font-extrabold text-primary">0 <span
+                          class="text-[10px] text-on-surface-variant font-normal">pts</span></span>
+                    </div>
+                    <span class="material-symbols-outlined text-tertiary-fixed mt-4 text-3xl" data-icon="military_tech"
+                      data-weight="fill" style="font-variation-settings: 'FILL' 1;">military_tech</span>
+                  </div>
+                </div>
 
-      <!-- Generation Phase (Initial View) -->
-      <section id="generate-section" class="glass-card active-section">
-        <div class="card-header">
-          <h1>Test Your GCP Knowledge</h1>
-          <p>
-            Agent will query the latest Google Developer Cloud documentation to
-            create a complex customer scenario.
-          </p>
-        </div>
-        <div class="input-group">
-          <label for="topic-select">Assessment Topic</label>
-          <select id="topic-select" class="dropdown">
-            <option value="Vertex AI">Vertex AI</option>
-            <option value="BigQuery">BigQuery</option>
-            <option value="AlloyDB">AlloyDB</option>
-            <option value="Cloud SQL">Cloud SQL</option>
-            <option value="Spanner">Spanner</option>
-            <option value="GKE">GKE</option>
-            <option value="Cloud Run">Cloud Run</option>
-          </select>
-        </div>
-
-        <p id="gen-status" class="status-label hidden"></p>
-        <button id="generate-btn" class="primary-btn">
-          <span class="btn-text">Generate Assessment</span>
-          <div class="loader hidden" id="gen-loader"></div>
-        </button>
-      </section>
-
-      <!-- Assessment Phase -->
-      <section id="assessment-section" class="glass-card hidden">
-        <div class="scenario-ribbon">SCENARIO ACTIVE</div>
-
-        <div class="context-box">
-          <h3 class="label-heading">Customer Context</h3>
-          <p id="context-display" class="dynamic-text"></p>
-        </div>
-
-        <div class="question-box">
-          <h3 class="label-heading">Question</h3>
-          <p id="question-display" class="dynamic-text main-question"></p>
-        </div>
-
-        <div class="input-group">
-          <label for="answer-input">Your Technical Response</label>
-          <textarea
-            id="answer-input"
-            rows="6"
-            placeholder="Formulate your answer here as if you are advising a real Google Cloud customer..."
-          ></textarea>
-        </div>
-        <p id="eval-status" class="status-label hidden"></p>
-        <button id="evaluate-btn" class="primary-btn submit-btn">
-          <span class="btn-text">Submit for Evaluation</span>
-          <div class="loader hidden" id="eval-loader"></div>
-        </button>
-      </section>
-
-      <!-- Result Phase -->
-      <section id="result-section" class="glass-card hidden">
-        <h2 id="result-title" class="result-title"></h2>
-
-        <div class="feedback-box">
-          <h3 class="label-heading">Feedback & Rationale</h3>
-          <p id="feedback-display" class="dynamic-text"></p>
-        </div>
-
-        <div class="sources-box">
-          <h3 class="label-heading">Ground Truth Sources</h3>
-          <ul id="sources-display" class="source-list"></ul>
-        </div>
-
-        <div class="expected-box">
-          <h3 class="label-heading">Agent's Expected Answer</h3>
-          <p id="expected-display" class="dynamic-text expected-text"></p>
-        </div>
-
-        <button id="reset-btn" class="secondary-btn">New Assessment</button>
-      </section>
-    </main>
+            <!-- Leaderboard Table -->
+            <div class="bg-surface-container-low rounded-2xl overflow-hidden ambient-lift" style="margin-bottom: 4rem;">
+              <div class="p-6 border-b border-outline-variant/15 flex justify-between items-center">
+                <h2 class="font-headline font-bold text-lg">Global Rankings</h2>
+                <div class="flex gap-2">
+                  <span class="material-symbols-outlined text-on-surface-variant text-sm" data-icon="filter_list">filter_list</span>
+                  <span class="font-label text-xs uppercase font-bold text-on-surface-variant">All Time</span>
+                </div>
+              </div>
+              <div class="overflow-x-auto relative">
+                <div class="absolute left-0 top-0 bottom-0 w-1 bg-primary"></div>
+                <table class="w-full text-left border-collapse">
+                  <thead>
+                    <tr
+                      class="bg-surface-container-high/50 font-label text-[10px] uppercase tracking-widest text-on-surface-variant">
+                      <th class="px-8 py-4 font-bold">Rank</th>
+                      <th class="px-8 py-4 font-bold">Architect</th>
+                      <th class="px-8 py-4 font-bold">User ID</th>
+                      <th class="px-8 py-4 font-bold">Status</th>
+                      <th class="px-8 py-4 font-bold text-right">Score</th>
+                    </tr>
+                  </thead>
+                  <tbody id="leaderboard-list" class="divide-y divide-outline-variant/10">
+                    <!-- Dynamic Rows populated by app.ts -->
+                    <tr>
+                      <td colspan="5" style="text-align: center; padding: 2rem;">Loading ethereal architects...</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            </div>
+            </main>
+      </div>
+      </div>
 
     <script src="app.js"></script>
   </body>

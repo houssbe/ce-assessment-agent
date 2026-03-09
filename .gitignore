@@ -45,3 +45,35 @@ Thumbs.db
 *.db
 *.db-shm
 *.db-wal
+
+# Agent
+.agent/
+
+# Docker
+Dockerfile
+
+# Google Cloud
+.gcloudignore
+
+# Temporary Files & Caches
+tmp/
+temp/
+.npm/
+.eslintcache
+.vitest/
+
+# Security & Credentials
+*.pem
+*.key
+*.cert
+*.rsa
+
+# Firebase / GCP CLI
+.firebase/
+firebase-debug.log
+firebase-debug.env
+gcloud-debug.log
+
+# Package Managers
+pnpm-debug.log*
+.pnpm-store/

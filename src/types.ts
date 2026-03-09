@@ -16,7 +16,7 @@ export const AssessmentQuestionSchema = z.object({
 
 export const AssessmentResultSchema = z.object({
     questionId: z.string(),
-    isCorrect: z.boolean(),
+    status: z.enum(["CORRECT", "INCORRECT", "PARTIAL"]),
     reasoning: z.string().min(1, "Reasoning must not be empty."),
     feedback: z.string().min(1, "Feedback must not be empty."),
     sourcesUsed: z.array(z.string()),
@@ -26,7 +26,7 @@ export const AssessmentResultSchema = z.object({
 // Intermediate schema for the raw evaluation output (before we enrich it with
 // questionId and sourcesUsed, which come from the calling context, not the model).
 export const EvaluationOutputSchema = z.object({
-    isCorrect: z.boolean(),
+    status: z.enum(["CORRECT", "INCORRECT", "PARTIAL"]),
     reasoning: z.string().min(1, "Reasoning must not be empty."),
     feedback: z.string().min(1, "Feedback must not be empty."),
     citations: z.array(z.string()).default([]),

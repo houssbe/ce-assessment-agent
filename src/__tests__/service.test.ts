@@ -8,7 +8,7 @@ const mocks = vi.hoisted(() => ({
         context: 'Mocked context.',
         referenceAnswer: 'Mocked reference answer.',
         reasoning: 'mocked reasoning',
-        isCorrect: true,
+        status: 'CORRECT',
         feedback: 'Mocked feedback.',
         citations: [] as string[]
     }
@@ -82,7 +82,7 @@ describe('GCPKnowledgeService', () => {
 
         expect(evalResult).toBeDefined();
         expect(evalResult.questionId).toBe('test_q');
-        expect(evalResult.isCorrect).toBe(true);
+        expect(evalResult.status).toBe('CORRECT');
         expect(evalResult.feedback).toBe('Mocked feedback.');
         expect(evalResult.reasoning).toBe('mocked reasoning');
     });

@@ -1,0 +1,25 @@
+steps:
+  # Start postgres background container to act as test DB
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['run', '-d', '--name=test-db', '--network=cloudbuild', '-e', 'POSTGRES_USER=testuser', '-e', 'POSTGRES_PASSWORD=testpass', '-e', 'POSTGRES_DB=questions', 'postgres:16']
+
+  # Install dependencies using a node image
+  - name: 'node:20'
+    entrypoint: 'npm'
+    args: ['install']
+
+  # Wait for Postgres to initialize
+  - name: 'gcr.io/cloud-builders/docker'
+    entrypoint: 'bash'
+    args: ['-c', 'sleep 5']
+
+  # Run the test script connecting to the 'test-db' container
+  - name: 'node:20'
+    entrypoint: 'npm'
+    args: ['run', 'test']
+    env:
+      - 'INSTANCE_HOST=test-db'
+      - 'DB_PORT=5432'
+      - 'DB_USER=testuser'
+      - 'DB_PASS=testpass'
+      - 'DB_NAME=questions'

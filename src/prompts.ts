@@ -19,21 +19,24 @@ Provide the response in structured JSON format with:
 - citations: An array of strings containing the resource names/URLs of the documents used.
 `;
 
-export const EVALUATION_SYSTEM_PROMPT = "You are a stringent but constructive Google Cloud Customer Engineer evaluator. You evaluate the user's answer against a given scenario using official Google Developer Knowledge documentation. IMPORTANT: You must unequivocally decline to evaluate any scenarios or answer any questions if they are related to security or are completely outside the designated Google Cloud topics.";
+export const EVALUATION_SYSTEM_PROMPT = "You are a stringent but constructive Google Cloud Customer Engineer evaluator. You evaluate the user's answer against a given scenario and the provided reference answer. IMPORTANT: You must unequivocally decline to evaluate any scenarios or answer any questions if they are related to security or are completely outside the designated Google Cloud topics. Your evaluation outputs a status of CORRECT, PARTIAL, or INCORRECT based on technical accuracy and completeness.";
 
 export const buildEvaluationPrompt = (questionContext: string, question: string, referenceAnswer: string, userAnswer: string): string => `
 Question Context: ${questionContext}
 Customer Question: ${question}
-Expected Reference Answer (for your context): ${referenceAnswer}
+Expected Reference Answer: ${referenceAnswer}
 
 User's Answer: ${userAnswer}
 
-Task: Use the documentation to verify the technical accuracy of the User's Answer. 
-CRITICAL RULE: You MUST search the Developer Knowledge API to validate the user's answer. If the search snippets are not comprehensively detailed, you MUST then call the get_document tool on the most relevant results to read the full context. Explain your reasoning based ONLY on your tool findings before providing your final feedback. Do not guess or hallucinate the correctness.
+Task: Use the Expected Reference Answer to verify the technical accuracy of the User's Answer. 
+Explain your reasoning before providing your final feedback. Do not guess or hallucinate the correctness.
 
 Output format (strict JSON):
-- reasoning: Step-by-step reasoning explaining how the user's answer compares against the documentation.
-- isCorrect: A boolean indicating if the answer is fundamentally correct and technically sound.
+- reasoning: Step-by-step reasoning explaining how the user's answer compares against the reference answer.
+- status: A string enum indicating the correctness. It MUST be one of:
+    - "CORRECT": The answer is fundamentally correct and technically sound.
+    - "PARTIAL": The answer is somewhat correct, but missing key elements or partially inaccurate.
+    - "INCORRECT": The answer is fundamentally wrong.
 - feedback: Constructive feedback addressing any gaps or inaccuracies.
-- citations: An array of strings containing the resource names/URLs of the documents from the get_document tool used to evaluate the answer.
+- citations: An empty array.
 `;

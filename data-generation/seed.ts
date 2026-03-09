@@ -1,5 +1,5 @@
 import { GCPKnowledgeService } from '../src/service.js';
-import { db, insertQuestion } from '../src/db.js';
+import { insertQuestion, getQuestionCount } from '../src/db.js';
 import { getConfig } from '../src/config.js';
 
 /**
@@ -62,7 +62,7 @@ async function seed() {
                     console.log(`    [!] Skipping refused question for ${product}`);
                     continue;
                 }
-                insertQuestion(q, product);
+                await insertQuestion(q, product);
                 inserted++;
             }
             console.log(`    ✅ Inserted ${inserted} question(s) into database.`);
@@ -71,9 +71,9 @@ async function seed() {
         }
     }
 
-    const countObj = db.prepare('SELECT COUNT(*) as count FROM questions').get() as { count: number };
+    const count = await getQuestionCount();
     console.log(`\n=== Seeding Complete ===`);
-    console.log(`Total questions in database: ${countObj.count}`);
+    console.log(`Total questions in database: ${count}`);
 }
 
 seed().catch(err => {
