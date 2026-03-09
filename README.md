@@ -32,6 +32,22 @@ gcloud auth application-default login
 ### Configuration
 Copy `.env.example` to `.env` and fill in your Cloud SQL credentials, Firebase Auth keys, and Gemini details.
 
+### Firebase Authentication Setup
+This project uses Firebase Authentication via Google's Identity Platform for Single Sign-On (SSO).
+To configure authentication properly in your GCP Project:
+
+1. Enable **Identity Platform** in the Google Cloud Console:
+   - Go to **Security > Identity Platform** and click **Enable**.
+   - Under **Providers**, click **Add A Provider** and select **Google**.
+   - Copy the Web Client ID and Web Client Secret from your existing Google OAuth 2.0 Client credentials (or create a new set under APIs & Services > Credentials).
+2. Go to the **Firebase Console** and add your existing GCP project.
+3. In **Project Settings > General**, add a **Web app** to your project to generate the `FIREBASE_API_KEY`.
+4. Copy the API Key and set it in your `.env` file.
+5. In your Google Cloud Console, go to **APIs & Services > Credentials**, find the auto-generated **Browser key (auto created by Firebase)**, and restrict its usage to:
+   - Your Cloud Run Domain: `https://YOUR-SERVICE-URL.run.app/*`
+   - Your Firebase Domain: `https://YOUR-PROJECT.firebaseapp.com/*`
+6. Add your Cloud Run domain to the **Authorized domains** list in the Firebase Authentication settings.
+
 ## 🚀 Build & Deploy
 
 This project is built to run on **Google Cloud Run** and utilizes an airlocked local environment. **All testing and database migrations should occur in the cloud.**
@@ -54,7 +70,4 @@ Testing is performed exclusively in the cloud via Google Cloud Build to simulate
 gcloud builds submit --config infrastructure/cloudbuild-test.yaml .
 ```
 
-## 📜 Global Rules
-- **No Local Testing**: Do not attempt to run `npm install` or `npm test` locally as the environment is airlocked. Always use the provided `cloudbuild-test.yaml`.
-- **Typing**: Strict TypeScript (`noImplicitAny`).
-- **Configuration**: Environment variables are parsed explicitly in `src/config.ts`.
+
